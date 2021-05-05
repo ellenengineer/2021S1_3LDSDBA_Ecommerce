@@ -109,7 +109,7 @@ namespace Ecommerce.Controllers
                 }
 
 
-                if (lg.CodCli == 0)
+                if (lg.CodCli > 0)
                 {
                     string retorno = objAppProd.AtualizarUsuario(lg);
                     return retorno;

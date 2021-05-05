@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Models;
 using Ecommerce.Context;
+using Ecommerce.library;
 
 namespace Ecommerce.Application
 {
@@ -75,7 +76,7 @@ namespace Ecommerce.Application
 
             try
             {
-                if (login.Trim() == "")
+                if (string.IsNullOrEmpty(login))
                 {
                     return null;
                 }
@@ -132,8 +133,15 @@ namespace Ecommerce.Application
             List<Login> lstUsers = new List<Login>();
             try
             {
+                foreach (var item in _contexto.Logins)
+                {
+                    Security objSecurity = new Security();
+                    string criptografado = objSecurity.EncriptSimetrica(item.Senha.Trim());
+                    item.Senha = criptografado;
 
-                lstUsers = _contexto.Logins.ToList(); //_contexto.Produtos.Select(x => x).ToList();
+                    lstUsers.Add(item);
+                }
+
 
                 if (lstUsers != null)
                 {
